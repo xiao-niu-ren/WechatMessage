@@ -5,23 +5,19 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.fasterxml.jackson.core.JsonParser;
 import com.xzy.wechatmsg.domain.task.model.Task;
 import com.xzy.wechatmsg.domain.task.repository.TaskRepository;
 import com.xzy.wechatmsg.enums.TaskStatusEnum;
-import com.xzy.wechatmsg.exception.task.NoSuchTaskIdException;
 import com.xzy.wechatmsg.mapper.TaskMapper;
 import com.xzy.wechatmsg.request.task.TaskRequest;
 import com.xzy.wechatmsg.vo.task.TaskResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @description: DbTaskHandler
@@ -47,8 +43,6 @@ public class DbTaskHandler extends AbstractTaskHandler{
                 .createTime(now)
                 .updateTime(now)
                 .build();
-        //这个insertId不是id，是影响的数量。。。
-//        int insertId = taskMapper.insert(task);
         taskMapper.insert(task);
         Integer insertId = task.getId();
         //把主键带出来给后续方法（App#createTasks）
@@ -90,9 +84,9 @@ public class DbTaskHandler extends AbstractTaskHandler{
     public void deleteTasks(TaskRequest taskRequest) {
         //去db中查询有没有这个id，没有就报错
         taskRepository.checkTaskId(taskRequest.getTaskId());
+        //有的话就删除
         LambdaQueryWrapper<Task> queryWrapper = new QueryWrapper<Task>().lambda();
         queryWrapper.eq(Task::getId,taskRequest.getTaskId());
-        //有的话就删除
         taskMapper.delete(queryWrapper);
     }
 }
