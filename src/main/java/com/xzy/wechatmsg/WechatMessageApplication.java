@@ -10,6 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.config.ScheduledTask;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +23,10 @@ public class WechatMessageApplication {
         ConfigurableApplicationContext context = SpringApplication.run(WechatMessageApplication.class, args);
         AppTaskHandler appTaskHandler = new AppTaskHandler();
         List<WrappedCronTask> wrappedCronTaskList = appTaskHandler.getWrappedCronTaskList();
-        Map<String, ScheduledTask> scheduledCronTaskMap = appTaskHandler.getScheduledCronTaskMap();
         while(true){
             try {
+                System.out.println("------------------" + LocalDateTime.now() + "---------------------------");
                 wrappedCronTaskList.forEach(System.out::println);
-                scheduledCronTaskMap.entrySet().forEach(System.out::println);
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();

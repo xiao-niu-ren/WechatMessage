@@ -79,13 +79,8 @@ public class ScheduleConfig implements SchedulingConfigurer {
                 taskMapper.updateStatusWithOutUpdateTime(id,TaskStatusEnum.TASK_RUNNING.getValue(),TaskStatusEnum.TASK_STOP.getValue());
                 return;
             }
-            //AppTask双写
-            //1.只写入WrappedCronTaskList，单纯填充信息，不启动任务
-            appTaskHandler.addWrappedCronTask(new WrappedCronTask(id,msg,cron,status,createTime,updateTime,runnable),true);
-            //启动任务，获取信息
-            ScheduledTask scheduledTask = taskRegistrar.scheduleCronTask(new CronTask(runnable,cron));
-            //2.交给scheduledCronTaskMap管理，后续可以cancel
-            appTaskHandler.getScheduledCronTaskMap().put(id.toString(), scheduledTask);
+            //appTask双写
+            appTaskHandler.addWrappedCronTask(new WrappedCronTask(id,msg,cron,status,createTime,updateTime,runnable),true, taskRegistrar);
         });
         //应用启动时增加刷新updateTime的cronTask，每小时刷一次，这个不用双写，因为不需要wrapped管理
         HashMap<Runnable, String> cronTasks = new HashMap<>();
