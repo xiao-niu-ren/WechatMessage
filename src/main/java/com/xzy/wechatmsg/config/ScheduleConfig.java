@@ -77,6 +77,7 @@ public class ScheduleConfig implements SchedulingConfigurer {
             //Running且updateTime小于2小时的task，就说明这个这个task因为SpringBoot应用停止运行挂过一段时间（一般一个小时以上，特殊情况可能很短，但是也一定挂掉过）
             //那就不启动数据库中过时的Running状态的task，并将状态设置成stop，等待用户手动启动各个挂掉过的task
             //场景：挂掉以后，用户发现前端的updateTime还是很久之前的，于是重启SpringBoot应用，启动成功以后，给出用户反馈（立即将过期的设置为stop表示启动成功了）
+            //原本意思是让另一个应用去监控这个应用= =
             if(TimeUtils.isUpdateTimeExpired(updateTime)){
                 taskMapper.updateStatusWithOutUpdateTime(id,TaskStatusEnum.TASK_RUNNING.getValue(),TaskStatusEnum.TASK_STOP.getValue());
                 return;
