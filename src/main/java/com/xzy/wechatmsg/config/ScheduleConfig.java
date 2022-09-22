@@ -73,6 +73,7 @@ public class ScheduleConfig implements SchedulingConfigurer {
             LocalDateTime createTime = dbRunningTask.getCreateTime();
             LocalDateTime updateTime = dbRunningTask.getUpdateTime();
             //构造runnable
+            //TODO : 把所有的sendToXiaoniuren换成变成通用接口，支持发群组定时消息等
             Runnable runnable = () -> wechatClient.sendToXiaoniuren(msg);
             //Running且updateTime小于2小时的task，就说明这个这个task因为SpringBoot应用停止运行挂过一段时间（一般一个小时以上，特殊情况可能很短，但是也一定挂掉过）
             //那就不启动数据库中过时的Running状态的task，并将状态设置成stop，等待用户手动启动各个挂掉过的task
