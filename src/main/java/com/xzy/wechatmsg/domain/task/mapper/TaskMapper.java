@@ -1,11 +1,9 @@
-package com.xzy.wechatmsg.mapper;
+package com.xzy.wechatmsg.domain.task.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xzy.wechatmsg.domain.task.model.Task;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 

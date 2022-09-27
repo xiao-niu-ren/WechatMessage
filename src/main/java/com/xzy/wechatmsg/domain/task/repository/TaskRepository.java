@@ -3,12 +3,9 @@ package com.xzy.wechatmsg.domain.task.repository;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xzy.wechatmsg.domain.task.model.Task;
-import com.xzy.wechatmsg.enums.TaskStatusEnum;
 import com.xzy.wechatmsg.exception.task.NoSuchTaskIdException;
-import com.xzy.wechatmsg.mapper.TaskMapper;
-import com.xzy.wechatmsg.request.task.TaskRequest;
+import com.xzy.wechatmsg.domain.task.mapper.TaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 

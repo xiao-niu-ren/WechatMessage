@@ -1,28 +1,23 @@
 package com.xzy.wechatmsg.manager.task;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.sun.org.apache.bcel.internal.ExceptionConst;
 import com.xzy.wechatmsg.bo.WrappedCronTask;
 import com.xzy.wechatmsg.domain.task.repository.TaskRepository;
 import com.xzy.wechatmsg.enums.TaskTypeEnum;
-import com.xzy.wechatmsg.exception.task.NoSuchTaskIdException;
 import com.xzy.wechatmsg.client.WechatClient;
 import com.xzy.wechatmsg.config.ScheduleConfig;
 import com.xzy.wechatmsg.domain.task.model.Task;
 import com.xzy.wechatmsg.enums.TaskStatusEnum;
-import com.xzy.wechatmsg.mapper.TaskMapper;
+import com.xzy.wechatmsg.domain.task.mapper.TaskMapper;
 import com.xzy.wechatmsg.request.task.TaskRequest;
 import com.xzy.wechatmsg.vo.task.TaskResponseVO;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.config.CronTask;
 import org.springframework.scheduling.config.ScheduledTask;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.PreDestroy;
 import java.time.LocalDateTime;

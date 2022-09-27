@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.xzy.wechatmsg.domain.task.model.Task;
 import com.xzy.wechatmsg.domain.task.repository.TaskRepository;
 import com.xzy.wechatmsg.enums.TaskStatusEnum;
-import com.xzy.wechatmsg.mapper.TaskMapper;
+import com.xzy.wechatmsg.domain.task.mapper.TaskMapper;
 import com.xzy.wechatmsg.request.task.TaskRequest;
 import com.xzy.wechatmsg.vo.task.TaskResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;

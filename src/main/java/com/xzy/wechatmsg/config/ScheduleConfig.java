@@ -7,7 +7,7 @@ import com.xzy.wechatmsg.client.WechatClient;
 import com.xzy.wechatmsg.domain.task.model.Task;
 import com.xzy.wechatmsg.enums.TaskStatusEnum;
 import com.xzy.wechatmsg.manager.task.AppTaskHandler;
-import com.xzy.wechatmsg.mapper.TaskMapper;
+import com.xzy.wechatmsg.domain.task.mapper.TaskMapper;
 import com.xzy.wechatmsg.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.scheduling.config.CronTask;
-import org.springframework.scheduling.config.ScheduledTask;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 import java.time.LocalDateTime;
