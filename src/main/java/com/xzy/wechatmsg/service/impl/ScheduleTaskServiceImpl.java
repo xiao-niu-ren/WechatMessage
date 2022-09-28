@@ -1,6 +1,5 @@
 package com.xzy.wechatmsg.service.impl;
 
-import com.xzy.wechatmsg.client.WechatClient;
 import com.xzy.wechatmsg.enums.TaskTypeEnum;
 import com.xzy.wechatmsg.manager.task.AbstractTaskHandler;
 import com.xzy.wechatmsg.request.task.TaskRequest;
@@ -19,9 +18,6 @@ import java.util.Map;
  */
 @Service
 public class ScheduleTaskServiceImpl implements ScheduleTaskService {
-
-    @Autowired
-    WechatClient wechatClient;
 
     @Autowired
     Map<String, AbstractTaskHandler> abstractTaskHandlerMap;

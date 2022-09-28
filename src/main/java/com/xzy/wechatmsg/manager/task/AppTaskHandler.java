@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xzy.wechatmsg.bo.WrappedCronTask;
 import com.xzy.wechatmsg.domain.task.repository.TaskRepository;
 import com.xzy.wechatmsg.enums.TaskTypeEnum;
-import com.xzy.wechatmsg.client.WechatClient;
 import com.xzy.wechatmsg.config.ScheduleConfig;
 import com.xzy.wechatmsg.domain.task.model.Task;
 import com.xzy.wechatmsg.enums.TaskStatusEnum;
@@ -43,7 +42,7 @@ public class AppTaskHandler extends AbstractTaskHandler {
     ScheduleConfig scheduleConfig;
 
     @Autowired
-    WechatClient wechatClient;
+    RunnableWechatMsgFactory runnableWechatMsgFactory;
 
     @Autowired
     TaskMapper taskMapper;
@@ -67,7 +66,7 @@ public class AppTaskHandler extends AbstractTaskHandler {
             //1.更新数据库状态和updateTime
             taskMapper.updateStatusWithUpdateTime(taskId, TaskStatusEnum.TASK_STOP.getValue(),TaskStatusEnum.TASK_RUNNING.getValue(),now);
             //2.创建app任务
-            Runnable runnable = () -> wechatClient.sendToXiaoniuren(msg);
+            Runnable runnable = runnableWechatMsgFactory.createRunnable(msg);
             //app双写任务
             this.addWrappedCronTask(new WrappedCronTask(taskId, msg, cron, TaskStatusEnum.TASK_RUNNING.getValue(),createTime,now,runnable), false);
         }
@@ -93,7 +92,7 @@ public class AppTaskHandler extends AbstractTaskHandler {
         //1.更新数据库状态和updateTime
         taskMapper.updateStatusWithUpdateTime(taskId,TaskStatusEnum.TASK_STOP.getValue(),TaskStatusEnum.TASK_RUNNING.getValue(),now);
         //2.创建app任务
-        Runnable runnable = () -> wechatClient.sendToXiaoniuren(msg);
+        Runnable runnable = runnableWechatMsgFactory.createRunnable(msg);
         //双写app任务
         this.addWrappedCronTask(new WrappedCronTask(taskId, msg, cron, TaskStatusEnum.TASK_RUNNING.getValue(),createTime,now,runnable), false);
     }
@@ -128,7 +127,7 @@ public class AppTaskHandler extends AbstractTaskHandler {
             Integer status = dbRunningTask.getStatus();
             LocalDateTime createTime = dbRunningTask.getCreateTime();
             LocalDateTime updateTime = dbRunningTask.getUpdateTime();
-            Runnable runnable = () -> wechatClient.sendToXiaoniuren(msg);
+            Runnable runnable = runnableWechatMsgFactory.createRunnable(msg);
             this.addWrappedCronTask(new WrappedCronTask(taskId, msg, cron, status,createTime,updateTime,runnable), false);
         });
     }
