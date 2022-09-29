@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class WechatMessageApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(WechatMessageApplication.class, args);
+        SpringApplication.run(WechatMessageApplication.class, args);
         AppTaskHandler appTaskHandler = new AppTaskHandler();
         List<WrappedCronTask> wrappedCronTaskList = appTaskHandler.getWrappedCronTaskList();
         while (true) {
