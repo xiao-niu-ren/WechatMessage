@@ -1,6 +1,6 @@
 package com.xzy.wechatmsg.client;
 
-import com.xzy.wechatmsg.request.task.WechatMsgWithInfoAndType;
+import com.xzy.wechatmsg.bo.WechatMsgWithInfoAndType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;

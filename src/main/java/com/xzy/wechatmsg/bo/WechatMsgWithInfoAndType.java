@@ -1,4 +1,4 @@
-package com.xzy.wechatmsg.request.task;
+package com.xzy.wechatmsg.bo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xzy.wechatmsg.enums.WechatMsgTypeEnum;

@@ -2,7 +2,7 @@ package com.xzy.wechatmsg.manager.task;
 
 import com.alibaba.fastjson.JSON;
 import com.xzy.wechatmsg.exception.task.NoSuchMsgTypeException;
-import com.xzy.wechatmsg.request.task.WechatMsgWithInfoAndType;
+import com.xzy.wechatmsg.bo.WechatMsgWithInfoAndType;
 import com.xzy.wechatmsg.client.WechatClient;
 import com.xzy.wechatmsg.enums.WechatMsgTypeEnum;
 import com.xzy.wechatmsg.exception.task.TaskInvokeException;
