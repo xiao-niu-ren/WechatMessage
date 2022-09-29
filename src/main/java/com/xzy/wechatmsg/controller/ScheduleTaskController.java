@@ -1,5 +1,6 @@
 package com.xzy.wechatmsg.controller;
 
+import com.xzy.wechatmsg.exception.task.NoSuchMsgTypeException;
 import com.xzy.wechatmsg.exception.task.NoSuchTaskIdException;
 import com.xzy.wechatmsg.request.task.TaskRequest;
 import com.xzy.wechatmsg.service.ScheduleTaskService;
@@ -26,11 +27,7 @@ public class ScheduleTaskController {
 
     @RequestMapping("/create")
     public BaseResponseVO createTasks(@RequestBody TaskRequest taskRequest){
-        try{
-            scheduleTaskService.createTasks(taskRequest);
-        } catch (NoSuchTaskIdException e){
-            return BaseResponseVO.error();
-        }
+        scheduleTaskService.createTasks(taskRequest);
         return BaseResponseVO.success();
     }
 
@@ -42,21 +39,13 @@ public class ScheduleTaskController {
 
     @RequestMapping("/update")
     public BaseResponseVO updateTasks(@RequestBody TaskRequest taskRequest){
-        try{
-            scheduleTaskService.updateTasks(taskRequest);
-        } catch (NoSuchTaskIdException e){
-            return BaseResponseVO.error();
-        }
+        scheduleTaskService.updateTasks(taskRequest);
         return BaseResponseVO.success();
     }
 
     @RequestMapping("/delete")
     public BaseResponseVO deleteTasks(@RequestBody TaskRequest taskRequest){
-        try{
-            scheduleTaskService.deleteTasks(taskRequest);
-        } catch (NoSuchTaskIdException e){
-            return BaseResponseVO.error();
-        }
+        scheduleTaskService.deleteTasks(taskRequest);
         return BaseResponseVO.success();
     }
 

@@ -20,6 +20,9 @@ import java.time.LocalDateTime;
 @Data
 public class TaskRequest {
     Integer taskId;
+    /**
+     * WechatMsgWithInfoAndType的JSON字符串
+     */
     String msg;
     String cron;
     Integer status;
