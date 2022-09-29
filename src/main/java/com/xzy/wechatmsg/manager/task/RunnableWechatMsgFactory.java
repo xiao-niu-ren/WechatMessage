@@ -52,7 +52,7 @@ public class RunnableWechatMsgFactory {
                     throw new TaskInvokeException();
                 }
             };
-        } catch (NoSuchMethodException e) {
+        } catch (Exception e) {
             throw new NoSuchMsgTypeException();
         }
         return res;
