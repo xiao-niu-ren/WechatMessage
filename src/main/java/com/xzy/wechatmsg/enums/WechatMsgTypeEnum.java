@@ -42,11 +42,4 @@ public enum WechatMsgTypeEnum {
         }
         return null;
     }
-
-    @Override
-    public String toString() {
-        return "WechatMsgTypeEnum{" +
-                "value='" + value + '\'' +
-                '}';
-    }
 }
