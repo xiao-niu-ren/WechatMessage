@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 public interface TaskMapper extends BaseMapper<Task> {
 
     @Select("UPDATE task SET status = #{new_status},update_time = #{update_time} WHERE status = #{pre_status} AND id = #{id}")
-    void updateStatusWithUpdateTime(@Param("id")Integer id, @Param("pre_status") Integer preStatus, @Param("new_status") Integer newStatus, @Param("update_time")LocalDateTime updateTime);
+    void updateStatusWithUpdateTime(@Param("id") Integer id, @Param("pre_status") Integer preStatus, @Param("new_status") Integer newStatus, @Param("update_time") LocalDateTime updateTime);
 
     @Select("UPDATE task SET status = #{new_status} WHERE status = #{pre_status} AND id = #{id}")
-    void updateStatusWithOutUpdateTime(@Param("id")Integer id, @Param("pre_status") Integer preStatus, @Param("new_status") Integer newStatus);
+    void updateStatusWithOutUpdateTime(@Param("id") Integer id, @Param("pre_status") Integer preStatus, @Param("new_status") Integer newStatus);
 
 }

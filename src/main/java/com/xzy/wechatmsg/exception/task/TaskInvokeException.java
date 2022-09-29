@@ -7,8 +7,8 @@ import com.xzy.wechatmsg.constant.ExceptionConstants;
  * @author: Xie zy
  * @create: 2022.09.29
  */
-public class TaskInvokeException extends BaseTaskException{
-    public TaskInvokeException(){
+public class TaskInvokeException extends BaseTaskException {
+    public TaskInvokeException() {
         super(ExceptionConstants.TASK_INVOKE_FAILED);
     }
 }

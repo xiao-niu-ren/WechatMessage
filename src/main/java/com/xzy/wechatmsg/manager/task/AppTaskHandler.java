@@ -64,11 +64,11 @@ public class AppTaskHandler extends AbstractTaskHandler {
             //启动appTask需要更新updateTime
             LocalDateTime now = LocalDateTime.now();
             //1.更新数据库状态和updateTime
-            taskMapper.updateStatusWithUpdateTime(taskId, TaskStatusEnum.TASK_STOP.getValue(),TaskStatusEnum.TASK_RUNNING.getValue(),now);
+            taskMapper.updateStatusWithUpdateTime(taskId, TaskStatusEnum.TASK_STOP.getValue(), TaskStatusEnum.TASK_RUNNING.getValue(), now);
             //2.创建app任务
             Runnable runnable = runnableWechatMsgFactory.createRunnable(msg);
             //app双写任务
-            this.addWrappedCronTask(new WrappedCronTask(taskId, msg, cron, TaskStatusEnum.TASK_RUNNING.getValue(),createTime,now,runnable), false);
+            this.addWrappedCronTask(new WrappedCronTask(taskId, msg, cron, TaskStatusEnum.TASK_RUNNING.getValue(), createTime, now, runnable), false);
         }
     }
 
@@ -90,21 +90,21 @@ public class AppTaskHandler extends AbstractTaskHandler {
         //找不到id上游已经判断了，所以直接运行app即可
         LocalDateTime now = LocalDateTime.now();
         //1.更新数据库状态和updateTime
-        taskMapper.updateStatusWithUpdateTime(taskId,TaskStatusEnum.TASK_STOP.getValue(),TaskStatusEnum.TASK_RUNNING.getValue(),now);
+        taskMapper.updateStatusWithUpdateTime(taskId, TaskStatusEnum.TASK_STOP.getValue(), TaskStatusEnum.TASK_RUNNING.getValue(), now);
         //2.创建app任务
         Runnable runnable = runnableWechatMsgFactory.createRunnable(msg);
         //双写app任务
-        this.addWrappedCronTask(new WrappedCronTask(taskId, msg, cron, TaskStatusEnum.TASK_RUNNING.getValue(),createTime,now,runnable), false);
+        this.addWrappedCronTask(new WrappedCronTask(taskId, msg, cron, TaskStatusEnum.TASK_RUNNING.getValue(), createTime, now, runnable), false);
     }
 
     @Override
     public void deleteTasks(TaskRequest taskRequest) {
         //type = app需要查询数据库，并改状态
-        if(TaskTypeEnum.TASK_TYPE_APP.getValue().equals(taskRequest.getType())){
+        if (TaskTypeEnum.TASK_TYPE_APP.getValue().equals(taskRequest.getType())) {
             //查db，查不到报错
             taskRepository.checkTaskId(taskRequest.getTaskId());
             //查到更新状态为stop
-            taskMapper.updateStatusWithOutUpdateTime(taskRequest.getTaskId(),TaskStatusEnum.TASK_RUNNING.getValue(), TaskStatusEnum.TASK_STOP.getValue());
+            taskMapper.updateStatusWithOutUpdateTime(taskRequest.getTaskId(), TaskStatusEnum.TASK_RUNNING.getValue(), TaskStatusEnum.TASK_STOP.getValue());
         }
         //type = db，上游已经删除了，故肯定查不到
         //停止app任务
@@ -128,7 +128,7 @@ public class AppTaskHandler extends AbstractTaskHandler {
             LocalDateTime createTime = dbRunningTask.getCreateTime();
             LocalDateTime updateTime = dbRunningTask.getUpdateTime();
             Runnable runnable = runnableWechatMsgFactory.createRunnable(msg);
-            this.addWrappedCronTask(new WrappedCronTask(taskId, msg, cron, status,createTime,updateTime,runnable), false);
+            this.addWrappedCronTask(new WrappedCronTask(taskId, msg, cron, status, createTime, updateTime, runnable), false);
         });
     }
 
@@ -138,8 +138,9 @@ public class AppTaskHandler extends AbstractTaskHandler {
 
     /**
      * 只在app层面增加，不管db
-     * @param wrappedCronTask wrappedCronTask
-     * @param initial 是否是初始化
+     *
+     * @param wrappedCronTask         wrappedCronTask
+     * @param initial                 是否是初始化
      * @param scheduledTaskRegistrars 初始化的时候用到
      */
     public void addWrappedCronTask(WrappedCronTask wrappedCronTask, boolean initial, ScheduledTaskRegistrar... scheduledTaskRegistrars) {
@@ -155,17 +156,18 @@ public class AppTaskHandler extends AbstractTaskHandler {
             this.getScheduledCronTaskMap().put(wrappedCronTask.getTaskId().toString(), scheduledCronTask);
         }
 
-        if(initial) {
+        if (initial) {
             //因为ScheduleConfig initial的时候是new的AppTaskHandler
             //直接调用this.addCronTask应该是没有注入getScheduledTaskRegistrar的
             ScheduledTaskRegistrar taskRegistrar = scheduledTaskRegistrars[0];
-            ScheduledTask scheduledCronTask = taskRegistrar.scheduleCronTask(new CronTask(runnable,cron));
+            ScheduledTask scheduledCronTask = taskRegistrar.scheduleCronTask(new CronTask(runnable, cron));
             this.getScheduledCronTaskMap().put(wrappedCronTask.getTaskId().toString(), scheduledCronTask);
         }
     }
 
     /**
      * 只在app层面删除，不管db
+     *
      * @param taskId taskId
      */
     public void removeWrappedCronTask(Integer taskId) {
@@ -175,7 +177,7 @@ public class AppTaskHandler extends AbstractTaskHandler {
         List<WrappedCronTask> wrappedCronTaskList = this.getWrappedCronTaskList().stream()
                 .filter(wrappedCronTask -> wrappedCronTask.getTaskId().equals(taskId))
                 .collect(Collectors.toList());
-        if(CollectionUtils.isEmpty(wrappedCronTaskList)) return;
+        if (CollectionUtils.isEmpty(wrappedCronTaskList)) return;
         this.getWrappedCronTaskList().remove(wrappedCronTaskList.get(0));
         //2.删除Task
         this.removeCronTask(taskId);
@@ -200,7 +202,7 @@ public class AppTaskHandler extends AbstractTaskHandler {
         //拉闸App，双拉
         //1.拉闸wrappedList
         this.getWrappedCronTaskList().forEach(wrappedCronTask -> {
-            taskMapper.updateStatusWithOutUpdateTime(wrappedCronTask.getTaskId(), TaskStatusEnum.TASK_RUNNING.getValue(),TaskStatusEnum.TASK_STOP.getValue());
+            taskMapper.updateStatusWithOutUpdateTime(wrappedCronTask.getTaskId(), TaskStatusEnum.TASK_RUNNING.getValue(), TaskStatusEnum.TASK_STOP.getValue());
         });
         //清空数据
         this.getWrappedCronTaskList().clear();
@@ -215,7 +217,7 @@ public class AppTaskHandler extends AbstractTaskHandler {
     }
 
     @PreDestroy
-    private void shutdownAppAfterSpringBoot(){
+    private void shutdownAppAfterSpringBoot() {
         //基本不用的方法，SpringBoot容器关闭后执行
         this.shutdownAllAppTask();
     }

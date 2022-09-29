@@ -1,11 +1,7 @@
 package com.xzy.wechatmsg.bo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.scheduling.config.CronTask;
-import org.springframework.scheduling.support.CronTrigger;
 
 import java.time.LocalDateTime;
 
@@ -32,7 +28,7 @@ public class WrappedCronTask extends CronTask {
                            LocalDateTime createTime,
                            LocalDateTime updateTime,
                            Runnable runnable) {
-        super(runnable,cron);
+        super(runnable, cron);
         this.taskId = taskId;
         this.msg = msg;
         this.cron = cron;

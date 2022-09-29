@@ -25,9 +25,9 @@ public class TaskRepository {
     public Task checkTaskId(Integer taskId) {
         //去db中查询有没有这个id，没有就报错，有就传来db中的task
         LambdaQueryWrapper<Task> queryWrapper = new QueryWrapper<Task>().lambda();
-        queryWrapper.eq(Task::getId,taskId);
+        queryWrapper.eq(Task::getId, taskId);
         List<Task> tasks = taskMapper.selectList(queryWrapper);
-        if(CollectionUtils.isEmpty(tasks)){
+        if (CollectionUtils.isEmpty(tasks)) {
             throw new NoSuchTaskIdException();
         }
         return tasks.get(0);

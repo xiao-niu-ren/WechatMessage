@@ -1,14 +1,10 @@
 package com.xzy.wechatmsg.manager.task;
 
-import com.xzy.wechatmsg.enums.TaskTypeEnum;
 import com.xzy.wechatmsg.request.task.TaskRequest;
 import com.xzy.wechatmsg.vo.task.TaskResponseVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.config.CronTask;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @description: AbstractTaskHandler
@@ -26,6 +22,6 @@ public abstract class AbstractTaskHandler {
 
     public abstract void deleteTasks(TaskRequest taskRequest);
 
-    public void refreshApp(){}
+    public void refreshApp() {}
 
 }

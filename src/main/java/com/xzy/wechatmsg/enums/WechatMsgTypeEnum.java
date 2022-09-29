@@ -11,15 +11,15 @@ public enum WechatMsgTypeEnum {
      */
     TEXT_MSG("text_msg"),
     /**
-     *img
+     * img
      */
     IMG_MSG("img_msg"),
     /**
-     *at
+     * at
      */
     AT_MSG("at_msg"),
     /**
-     *annex
+     * annex
      */
     ANNEX_MSG("annex_msg"),
     ;

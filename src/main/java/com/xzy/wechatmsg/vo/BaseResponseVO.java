@@ -19,7 +19,7 @@ public class BaseResponseVO<T> {
     Boolean success;
     T data;
 
-    public static BaseResponseVO success(){
+    public static BaseResponseVO success() {
         return BaseResponseVO.builder()
                 .code(0)
                 .success(true)
@@ -27,7 +27,7 @@ public class BaseResponseVO<T> {
                 .build();
     }
 
-    public static<T> BaseResponseVO success(T data){
+    public static <T> BaseResponseVO success(T data) {
         return BaseResponseVO.builder()
                 .code(0)
                 .success(true)
@@ -35,11 +35,19 @@ public class BaseResponseVO<T> {
                 .build();
     }
 
-    public static BaseResponseVO error(){
+    public static BaseResponseVO error() {
         return BaseResponseVO.builder()
                 .code(-1)
                 .success(false)
                 .data("error")
+                .build();
+    }
+
+    public static BaseResponseVO error(String errMsg) {
+        return BaseResponseVO.builder()
+                .code(-1)
+                .success(false)
+                .data(errMsg)
                 .build();
     }
 

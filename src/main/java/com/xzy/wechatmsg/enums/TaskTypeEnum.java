@@ -9,17 +9,17 @@ public enum TaskTypeEnum {
     /**
      * db
      */
-    TASK_TYPE_DB("db","dbTaskHandler"),
+    TASK_TYPE_DB("db", "dbTaskHandler"),
     /**
      * app
      */
-    TASK_TYPE_APP("app","appTaskHandler"),
+    TASK_TYPE_APP("app", "appTaskHandler"),
     ;
 
     String value;
     String handler;
 
-    TaskTypeEnum(String value,String handler) {
+    TaskTypeEnum(String value, String handler) {
         this.value = value;
         this.handler = handler;
     }

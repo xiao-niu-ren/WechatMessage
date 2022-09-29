@@ -41,7 +41,7 @@ public class ScheduleConfig implements SchedulingConfigurer {
 
     private CountDownLatch countDownLatch = new CountDownLatch(1);
 
-    public ScheduledTaskRegistrar getScheduledTaskRegistrar(){
+    public ScheduledTaskRegistrar getScheduledTaskRegistrar() {
         try {
             //等configureTasks方法中放入的注册器
             countDownLatch.await();
@@ -77,20 +77,20 @@ public class ScheduleConfig implements SchedulingConfigurer {
             //那就不启动数据库中过时的Running状态的task，并将状态设置成stop，等待用户手动启动各个挂掉过的task
             //场景：挂掉以后，用户发现前端的updateTime还是很久之前的，于是重启SpringBoot应用，启动成功以后，给出用户反馈（立即将过期的设置为stop表示启动成功了）
             //原本意思是让另一个应用去监控这个应用= =
-            if(TimeUtils.isUpdateTimeExpired(updateTime)){
-                taskMapper.updateStatusWithOutUpdateTime(id,TaskStatusEnum.TASK_RUNNING.getValue(),TaskStatusEnum.TASK_STOP.getValue());
+            if (TimeUtils.isUpdateTimeExpired(updateTime)) {
+                taskMapper.updateStatusWithOutUpdateTime(id, TaskStatusEnum.TASK_RUNNING.getValue(), TaskStatusEnum.TASK_STOP.getValue());
                 return;
             }
             //appTask双写
-            appTaskHandler.addWrappedCronTask(new WrappedCronTask(id,msg,cron,status,createTime,updateTime,runnable),true, taskRegistrar);
+            appTaskHandler.addWrappedCronTask(new WrappedCronTask(id, msg, cron, status, createTime, updateTime, runnable), true, taskRegistrar);
         });
         //应用启动时增加刷新updateTime的cronTask，每小时刷一次，这个不用双写，因为不需要wrapped管理
         HashMap<Runnable, String> cronTasks = new HashMap<>();
-         cronTasks.put(() -> {
+        cronTasks.put(() -> {
             appTaskHandler.getWrappedCronTaskList().forEach((wrappedCronTask) -> {
-                taskMapper.updateStatusWithUpdateTime(wrappedCronTask.getTaskId(),TaskStatusEnum.TASK_RUNNING.getValue(),TaskStatusEnum.TASK_RUNNING.getValue(),LocalDateTime.now());
+                taskMapper.updateStatusWithUpdateTime(wrappedCronTask.getTaskId(), TaskStatusEnum.TASK_RUNNING.getValue(), TaskStatusEnum.TASK_RUNNING.getValue(), LocalDateTime.now());
             });
-        },"0 0 * * * ?");
+        }, "0 0 * * * ?");
         taskRegistrar.setCronTasks(cronTasks);
 
         //保留注册器

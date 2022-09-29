@@ -21,7 +21,7 @@ public class WechatMessageApplication {
         ConfigurableApplicationContext context = SpringApplication.run(WechatMessageApplication.class, args);
         AppTaskHandler appTaskHandler = new AppTaskHandler();
         List<WrappedCronTask> wrappedCronTaskList = appTaskHandler.getWrappedCronTaskList();
-        while(true){
+        while (true) {
             try {
                 System.out.println("------------------" + LocalDateTime.now() + "---------------------------");
                 wrappedCronTaskList.forEach(System.out::println);

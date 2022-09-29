@@ -24,16 +24,16 @@ public class RunnableWechatMsgFactory {
     @Autowired
     WechatClient wechatClient;
 
-    private static final Map<WechatMsgTypeEnum, String> msgTypeMethodNameMap = new HashMap<WechatMsgTypeEnum, String>(){{
-        put(WechatMsgTypeEnum.TEXT_MSG,"sendTextMsg");
-        put(WechatMsgTypeEnum.IMG_MSG,"sendImgMsg");
-        put(WechatMsgTypeEnum.AT_MSG,"sendAtMsg");
-        put(WechatMsgTypeEnum.ANNEX_MSG,"sendAnnex");
+    private static final Map<WechatMsgTypeEnum, String> msgTypeMethodNameMap = new HashMap<WechatMsgTypeEnum, String>() {{
+        put(WechatMsgTypeEnum.TEXT_MSG, "sendTextMsg");
+        put(WechatMsgTypeEnum.IMG_MSG, "sendImgMsg");
+        put(WechatMsgTypeEnum.AT_MSG, "sendAtMsg");
+        put(WechatMsgTypeEnum.ANNEX_MSG, "sendAnnex");
     }};
 
     /**
      * @param msg WechatMsgWithType的JSON字符串
-     * @return  可运行的app任务
+     * @return 可运行的app任务
      */
     public Runnable createRunnable(String msg) {
         //获取不同type的method
@@ -41,13 +41,13 @@ public class RunnableWechatMsgFactory {
         String methodName = msgTypeMethodNameMap.get(wechatMsgWithInfoAndType.getMsgType());
         //反射获取Runnable
         Runnable res = () -> {};
-        try{
-            Method method = wechatClient.getClass().getDeclaredMethod(methodName,WechatMsgWithInfoAndType.WechatMsg.class);
+        try {
+            Method method = wechatClient.getClass().getDeclaredMethod(methodName, WechatMsgWithInfoAndType.WechatMsg.class);
             method.setAccessible(true);
             WechatMsgWithInfoAndType.WechatMsg wechatMsg = wechatMsgWithInfoAndType.getMsgInfo();
             res = () -> {
                 try {
-                    method.invoke(wechatClient,JSON.parseObject(JSON.toJSONString(wechatMsg), WechatMsgWithInfoAndType.WechatMsg.class));
+                    method.invoke(wechatClient, JSON.parseObject(JSON.toJSONString(wechatMsg), WechatMsgWithInfoAndType.WechatMsg.class));
                 } catch (Exception e) {
                     throw new TaskInvokeException();
                 }

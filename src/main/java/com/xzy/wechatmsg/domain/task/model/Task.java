@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @TableName(value = "task", autoResultMap = true)
 public class Task {
-    @TableId(type = IdType.AUTO,value = "id")
+    @TableId(type = IdType.AUTO, value = "id")
     Integer id;
     String msg;
     String cron;

@@ -1,14 +1,11 @@
 package com.xzy.wechatmsg.request.task;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xzy.wechatmsg.enums.WechatMsgTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 /**
  * @description: WechatMsgWithInfoAndType
@@ -29,7 +26,7 @@ public class WechatMsgWithInfoAndType {
     @NoArgsConstructor
     @Builder
     @Data
-    public static class WechatMsg{
+    public static class WechatMsg {
         @JsonProperty("wxid")
         String wxId;
         @JsonProperty("content")

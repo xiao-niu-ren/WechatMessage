@@ -41,30 +41,30 @@ public class WechatClient {
     @Autowired
     HttpEntity httpEntity;
 
-    public void sendToXiaoniuren(String msg){
+    public void sendToXiaoniuren(String msg) {
         String url = this.url + SEND_PATH_XIAONIUREN_TEMPLATE;
         restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class, msg);
     }
 
-    public void sendTextMsg(WechatMsgWithInfoAndType.WechatMsg msg){
+    public void sendTextMsg(WechatMsgWithInfoAndType.WechatMsg msg) {
         String url = this.url + SEND_PATH_SEND_TEXT_MSG;
         HttpEntity<WechatMsgWithInfoAndType.WechatMsg> request = new HttpEntity<>(msg, httpEntity.getHeaders());
         restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
-    public void sendImgMsg(WechatMsgWithInfoAndType.WechatMsg msg){
+    public void sendImgMsg(WechatMsgWithInfoAndType.WechatMsg msg) {
         String url = this.url + SEND_PATH_SEND_IMG_MSG;
         HttpEntity<WechatMsgWithInfoAndType.WechatMsg> request = new HttpEntity<>(msg, httpEntity.getHeaders());
         restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
-    public void sendAtMsg(WechatMsgWithInfoAndType.WechatMsg msg){
+    public void sendAtMsg(WechatMsgWithInfoAndType.WechatMsg msg) {
         String url = this.url + SEND_PATH_SEND_AT_MSG;
         HttpEntity<WechatMsgWithInfoAndType.WechatMsg> request = new HttpEntity<>(msg, httpEntity.getHeaders());
         restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
-    public void sendAnnex(WechatMsgWithInfoAndType.WechatMsg msg){
+    public void sendAnnex(WechatMsgWithInfoAndType.WechatMsg msg) {
         String url = this.url + SEND_PATH_SEND_ANNEX;
         HttpEntity<WechatMsgWithInfoAndType.WechatMsg> request = new HttpEntity<>(msg, httpEntity.getHeaders());
         restTemplate.exchange(url, HttpMethod.POST, request, String.class);
