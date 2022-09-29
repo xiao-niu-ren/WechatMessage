@@ -66,22 +66,23 @@ public class WechatClient {
 
     public void sendAnnex(WechatMsgWithInfoAndType.WechatMsg msg){
         String url = this.url + SEND_PATH_SEND_ANNEX;
-//        restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class, msg);
+        HttpEntity<WechatMsgWithInfoAndType.WechatMsg> request = new HttpEntity<>(msg, httpEntity.getHeaders());
+        restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
-    public void getWeChatUserList(WechatMsgWithInfoAndType.WechatMsg msg){
-        String url = this.url + GET_PATH_WECHAT_USER_LIST;
+//    public void getWeChatUserList(WechatMsgWithInfoAndType.WechatMsg msg){
+//        String url = this.url + GET_PATH_WECHAT_USER_LIST;
 //        restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class, msg);
-    }
-
-    public void getMemberId(WechatMsgWithInfoAndType.WechatMsg msg){
-        String url = this.url + GET_PATH_GET_MEMBER_ID;
+//    }
+//
+//    public void getMemberId(WechatMsgWithInfoAndType.WechatMsg msg){
+//        String url = this.url + GET_PATH_GET_MEMBER_ID;
 //        restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class, msg);
-    }
-
-    public void getChatroomMemberNick(WechatMsgWithInfoAndType.WechatMsg msg){
-        String url = this.url + GET_PATH_GET_CHATROOM_MEMBER_NICK_TEMPLATE;
+//    }
+//
+//    public void getChatroomMemberNick(WechatMsgWithInfoAndType.WechatMsg msg){
+//        String url = this.url + GET_PATH_GET_CHATROOM_MEMBER_NICK_TEMPLATE;
 //        restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class, msg);
-    }
+//    }
 
 }
