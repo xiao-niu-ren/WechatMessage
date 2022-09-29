@@ -1,6 +1,7 @@
 package com.xzy.wechatmsg.request.task;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.xzy.wechatmsg.enums.WechatMsgTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

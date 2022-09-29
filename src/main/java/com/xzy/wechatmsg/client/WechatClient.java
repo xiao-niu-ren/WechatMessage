@@ -51,17 +51,20 @@ public class WechatClient {
 
     public void sendTextMsg(WechatMsg msg){
         String url = this.url + SEND_PATH_SEND_TEXT_MSG;
-//        restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class, msg);
+        HttpEntity<WechatMsg> request = new HttpEntity<>(msg, httpEntity.getHeaders());
+        restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
     public void sendImgMsg(WechatMsg msg){
         String url = this.url + SEND_PATH_SEND_IMG_MSG;
-//        restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class, msg);
+        HttpEntity<WechatMsg> request = new HttpEntity<>(msg, httpEntity.getHeaders());
+        restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
     public void sendAtMsg(WechatMsg msg){
         String url = this.url + SEND_PATH_SEND_AT_MSG;
-//        restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class, msg);
+        HttpEntity<WechatMsg> request = new HttpEntity<>(msg, httpEntity.getHeaders());
+        restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
     public void sendAnnex(WechatMsg msg){
