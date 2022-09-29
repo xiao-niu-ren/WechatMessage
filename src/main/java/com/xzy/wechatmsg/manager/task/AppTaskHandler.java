@@ -113,9 +113,9 @@ public class AppTaskHandler extends AbstractTaskHandler {
 
     @Override
     public void refreshApp() {
-        //刷新app，使app的运行状态和数据库一致
-        //拉闸App
-        this.shutdownAllAppTask();
+        //刷新app，使app的运行状态和数据库中新加的一致
+        //拉闸App，但是不改db
+        this.shutdownAllAppTaskWithoutAlterDb();
         //对于数据库中Running的，重新注册运行appTask
         LambdaQueryWrapper<Task> wrapper = new QueryWrapper<Task>().lambda();
         wrapper.eq(Task::getStatus, TaskStatusEnum.TASK_RUNNING.getValue());
@@ -205,6 +205,14 @@ public class AppTaskHandler extends AbstractTaskHandler {
             taskMapper.updateStatusWithOutUpdateTime(wrappedCronTask.getTaskId(), TaskStatusEnum.TASK_RUNNING.getValue(), TaskStatusEnum.TASK_STOP.getValue());
         });
         //清空数据
+        this.getWrappedCronTaskList().clear();
+        //2.拉闸cronMap
+        this.shutdownAllCronTask();
+    }
+
+    private void shutdownAllAppTaskWithoutAlterDb() {
+        //拉闸App，但是不改数据库状态
+        //1.拉闸wrappedList
         this.getWrappedCronTaskList().clear();
         //2.拉闸cronMap
         this.shutdownAllCronTask();
