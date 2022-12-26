@@ -1,9 +1,9 @@
-wechat:
-  url: xxx
-
-spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://xxx?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
-    username: xxx
-    password: xxx
+#wechat:
+#  url: xxx
+#
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://xxx?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+#    username: xxx
+#    password: xxx
