@@ -47,6 +47,10 @@ public class ScheduleTaskController {
         return BaseResponseVO.success();
     }
 
+    /**让容器中的任务和数据库中保持一致
+     *
+     * @return vo
+     */
     @RequestMapping("/refreshApp")
     public BaseResponseVO refreshApp() {
         scheduleTaskService.refreshApp();
