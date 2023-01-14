@@ -1,6 +1,7 @@
 #wechat:
+#  # wechat robot暴露的url
 #  url: xxx
-#
+
 #spring:
 #  datasource:
 #    driver-class-name: com.mysql.jdbc.Driver
