@@ -1,6 +1,8 @@
 package com.xzy.wechatmsg.client;
 
 import com.xzy.wechatmsg.bo.WechatMsgWithInfoAndType;
+import com.xzy.wechatmsg.domain.robot.model.WechatMsgDTO;
+import com.xzy.wechatmsg.manager.task.robot.RobotMsgHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -14,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
  * @create: 2022.08.31
  */
 @Component
-public class WechatClient {
+public class WechatRobotClient {
 
     @Value(value = "${wechat.url}")
     private String url;
@@ -54,19 +56,19 @@ public class WechatClient {
 
     public void sendImgMsg(WechatMsgWithInfoAndType.WechatMsg msg) {
         String url = this.url + SEND_PATH_SEND_IMG_MSG;
-        HttpEntity<WechatMsgWithInfoAndType.WechatMsg> request = new HttpEntity<>(msg, httpEntity.getHeaders());
+        HttpEntity<WechatMsgDTO> request = new HttpEntity<>(RobotMsgHandler.buildWechatMsg(msg), httpEntity.getHeaders());
         restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
     public void sendAtMsg(WechatMsgWithInfoAndType.WechatMsg msg) {
         String url = this.url + SEND_PATH_SEND_AT_MSG;
-        HttpEntity<WechatMsgWithInfoAndType.WechatMsg> request = new HttpEntity<>(msg, httpEntity.getHeaders());
+        HttpEntity<WechatMsgDTO> request = new HttpEntity<>(RobotMsgHandler.buildWechatMsg(msg), httpEntity.getHeaders());
         restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
     public void sendAnnex(WechatMsgWithInfoAndType.WechatMsg msg) {
         String url = this.url + SEND_PATH_SEND_ANNEX;
-        HttpEntity<WechatMsgWithInfoAndType.WechatMsg> request = new HttpEntity<>(msg, httpEntity.getHeaders());
+        HttpEntity<WechatMsgDTO> request = new HttpEntity<>(RobotMsgHandler.buildWechatMsg(msg), httpEntity.getHeaders());
         restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
