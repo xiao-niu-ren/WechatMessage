@@ -2,7 +2,7 @@ package com.xzy.wechatmsg.client;
 
 import com.xzy.wechatmsg.bo.WechatMsgWithInfoAndType;
 import com.xzy.wechatmsg.domain.robot.model.WechatMsgDTO;
-import com.xzy.wechatmsg.manager.task.robot.RobotMsgHandler;
+import com.xzy.wechatmsg.manager.robot.RobotMsgHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -43,6 +43,9 @@ public class WechatRobotClient {
     @Autowired
     HttpEntity httpEntity;
 
+    @Autowired
+    RobotMsgHandler robotMsgHandler;
+
     public void sendToXiaoniuren(String msg) {
         String url = this.url + SEND_PATH_XIAONIUREN_TEMPLATE;
         restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class, msg);
@@ -56,19 +59,19 @@ public class WechatRobotClient {
 
     public void sendImgMsg(WechatMsgWithInfoAndType.WechatMsg msg) {
         String url = this.url + SEND_PATH_SEND_IMG_MSG;
-        HttpEntity<WechatMsgDTO> request = new HttpEntity<>(RobotMsgHandler.buildWechatMsg(msg), httpEntity.getHeaders());
+        HttpEntity<WechatMsgDTO> request = new HttpEntity<>(robotMsgHandler.buildWechatMsg(msg), httpEntity.getHeaders());
         restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
     public void sendAtMsg(WechatMsgWithInfoAndType.WechatMsg msg) {
         String url = this.url + SEND_PATH_SEND_AT_MSG;
-        HttpEntity<WechatMsgDTO> request = new HttpEntity<>(RobotMsgHandler.buildWechatMsg(msg), httpEntity.getHeaders());
+        HttpEntity<WechatMsgDTO> request = new HttpEntity<>(robotMsgHandler.buildWechatMsg(msg), httpEntity.getHeaders());
         restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
     public void sendAnnex(WechatMsgWithInfoAndType.WechatMsg msg) {
         String url = this.url + SEND_PATH_SEND_ANNEX;
-        HttpEntity<WechatMsgDTO> request = new HttpEntity<>(RobotMsgHandler.buildWechatMsg(msg), httpEntity.getHeaders());
+        HttpEntity<WechatMsgDTO> request = new HttpEntity<>(robotMsgHandler.buildWechatMsg(msg), httpEntity.getHeaders());
         restTemplate.exchange(url, HttpMethod.POST, request, String.class);
     }
 
