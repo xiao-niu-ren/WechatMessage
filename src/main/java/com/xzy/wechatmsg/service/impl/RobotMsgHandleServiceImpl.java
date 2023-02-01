@@ -3,6 +3,7 @@ package com.xzy.wechatmsg.service.impl;
 import com.xzy.wechatmsg.bo.WechatMsgWithInfoAndType;
 import com.xzy.wechatmsg.client.WechatRobotClient;
 import com.xzy.wechatmsg.domain.robot.model.WechatRsvMsgDTO;
+import com.xzy.wechatmsg.domain.robot.model.WechatRsvPicMsg;
 import com.xzy.wechatmsg.domain.robot.model.WechatRsvTxtMsg;
 import com.xzy.wechatmsg.manager.robot.RobotMsgHandler;
 import com.xzy.wechatmsg.service.RobotMsgHandleService;
@@ -54,6 +55,7 @@ public class RobotMsgHandleServiceImpl implements RobotMsgHandleService {
 
     @Override
     public void handlePicMsg(WechatRsvMsgDTO rsvMsg) {
-        //TODO
+        WechatRsvPicMsg wechatRsvPicMsg = robotMsgHandler.parsePicMsg(rsvMsg);
+        //TODO 分私聊/群聊/艾特
     }
 }

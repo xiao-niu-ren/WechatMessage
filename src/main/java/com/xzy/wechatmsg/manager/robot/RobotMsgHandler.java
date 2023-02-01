@@ -43,4 +43,19 @@ public class RobotMsgHandler {
         //TODO
         return null;
     }
+
+    public String dealAtGroupPicMsg(WechatRsvPicMsg pic) {
+        //TODO
+        return null;
+    }
+
+    public String dealNormalGroupPicMsg(WechatRsvPicMsg pic) {
+        //TODO
+        return null;
+    }
+
+    public String dealPrivatePicMsg(WechatRsvPicMsg pic) {
+        //TODO
+        return null;
+    }
 }
