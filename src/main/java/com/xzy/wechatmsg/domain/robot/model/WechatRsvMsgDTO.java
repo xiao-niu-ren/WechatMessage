@@ -1,9 +1,12 @@
 package com.xzy.wechatmsg.domain.robot.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @description: WechatRsvMsg
@@ -33,4 +36,13 @@ public class WechatRsvMsgDTO {
     private Integer type;
     /** 发送消息得对话框id   个人是个人得微信id,群组是群组得id带 */
     private String wxid;
+
+    @Data
+    @NoArgsConstructor
+    public static class NickNameResp {
+        String nick;
+        String roomid;
+        String wxid;
+    }
+
 }

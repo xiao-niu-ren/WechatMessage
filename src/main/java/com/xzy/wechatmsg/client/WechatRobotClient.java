@@ -1,12 +1,15 @@
 package com.xzy.wechatmsg.client;
 
+import com.alibaba.fastjson.JSON;
 import com.xzy.wechatmsg.bo.WechatMsgWithInfoAndType;
 import com.xzy.wechatmsg.domain.robot.model.WechatMsgDTO;
+import com.xzy.wechatmsg.domain.robot.model.WechatRsvMsgDTO;
 import com.xzy.wechatmsg.manager.robot.RobotMsgHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -35,7 +38,7 @@ public class WechatRobotClient {
 
     private final String GET_PATH_GET_MEMBER_ID = "/getMemberId";
 
-    private final String GET_PATH_GET_CHATROOM_MEMBER_NICK_TEMPLATE = "/getChatroomMemberNick/{roomid}/{wxid}";
+    private final String GET_PATH_GET_CHATROOM_MEMBER_NICK_TEMPLATE = "/getChatroomMemberNick}";
 
     @Autowired
     RestTemplate restTemplate;
@@ -84,10 +87,14 @@ public class WechatRobotClient {
 //        String url = this.url + GET_PATH_GET_MEMBER_ID;
 //        restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class, msg);
 //    }
-//
-//    public void getChatroomMemberNick(WechatMsgWithInfoAndType.WechatMsg msg){
-//        String url = this.url + GET_PATH_GET_CHATROOM_MEMBER_NICK_TEMPLATE;
-//        restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class, msg);
-//    }
+
+    public String getChatroomMemberNick(String roomId, String wxId){
+        String url = this.url + GET_PATH_GET_CHATROOM_MEMBER_NICK_TEMPLATE + "/" + roomId + "/" + wxId;
+        ResponseEntity<String> res = restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class);
+        WechatRsvMsgDTO wechatRsvMsgDTO = JSON.parseObject(res.getBody(), WechatRsvMsgDTO.class);
+        String content = wechatRsvMsgDTO.getContent();
+        WechatRsvMsgDTO.NickNameResp nickNameResp = JSON.parseObject(content, WechatRsvMsgDTO.NickNameResp.class);
+        return nickNameResp.getNick();
+    }
 
 }
