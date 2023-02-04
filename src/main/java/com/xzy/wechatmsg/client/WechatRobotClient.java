@@ -38,7 +38,7 @@ public class WechatRobotClient {
 
     private final String GET_PATH_GET_MEMBER_ID = "/getMemberId";
 
-    private final String GET_PATH_GET_CHATROOM_MEMBER_NICK_TEMPLATE = "/getChatroomMemberNick}";
+    private final String GET_PATH_GET_CHATROOM_MEMBER_NICK_TEMPLATE = "/getChatroomMemberNick";
 
     @Autowired
     RestTemplate restTemplate;
