@@ -61,26 +61,24 @@ public class RobotMsgHandler {
         return null;
     }
 
-    public String dealAtGroupTxtMsg(WechatRobotClient wechatRobotClient, String roomId, String wxId, String txt) {
-        //TODO 下面这行有 bug
-        String nickName = wechatRobotClient.getChatroomMemberNick(roomId, wxId);
+    public String dealAtGroupTxtMsg(WechatRobotClient wechatRobotClient, String roomId, String userId, String txt) {
+        txt = txt.trim();
+        String nickName = wechatRobotClient.getChatroomMemberNick(roomId, userId);
         //1.如果是开启自动回复，那就加入map，保存当前群聊，并返回收到
         //2.如果是关闭自动回复，那就从map中移除，并返回已关闭自动回复，保留@回复
         if ("开启我的自动回复".equals(txt)) {
             Set<String> set = autoRespMap.getOrDefault(roomId, new HashSet<>());
-            set.add(wxId);
+            set.add(userId);
             autoRespMap.put(roomId, set);
-            // TODO
             return "已开启" + nickName + "的自动回复";
         } else if ("关闭我的自动回复".equals(txt)) {
             Set<String> set = autoRespMap.getOrDefault(roomId, new HashSet<>());
-            if (set.contains(wxId)) {
-                set.remove(wxId);
+            if (set.contains(userId)) {
+                set.remove(userId);
             }
             if (set.isEmpty() && autoRespMap.containsKey(roomId)) {
                 autoRespMap.remove(roomId);
             }
-            // TODO
             return "已关闭" + nickName + "的自动回复";
         } else if ("开启所有自动回复".equals(txt)) {
             autoRespRoomSet.add(roomId);
@@ -91,15 +89,17 @@ public class RobotMsgHandler {
             }
             return "已关闭所有自动回复";
         } else {
-            return chat(txt, true);
+            return "To " + nickName + ":" + System.lineSeparator() + chat(txt, true);
         }
     }
 
     public String dealNormalGroupTxtMsg(String txt) {
+        txt = txt.trim();
         return chat(txt, false);
     }
 
     public String dealPrivateTxtMsg(String txt) {
+        txt = txt.trim();
         return chat(txt, false);
     }
 
@@ -123,7 +123,7 @@ public class RobotMsgHandler {
      */
     public String chat(String input, boolean openTips) {
         if (openTips) {
-            if (input == null || input.trim().equals("")) {
+            if (input == null || input.equals("")) {
                 return "您好，我是Robot-Niu"
                         + System.lineSeparator()
                         + "可以艾特我提问哦～"
@@ -140,7 +140,7 @@ public class RobotMsgHandler {
                         + "4.关闭所有自动回复（关闭所有群消息自动回复）";
             }
         } else {
-            if (input == null || input.trim().equals("")) {
+            if (input == null || input.equals("")) {
                 return "您好，我是Robot-Niu"
                         + System.lineSeparator()
                         + "可以提问我哦～";
@@ -159,7 +159,7 @@ public class RobotMsgHandler {
         //body
         ChatGptReq body = new ChatGptReq();
         body.setModel("text-davinci-003");
-        body.setPrompt(input.trim() + "\n");
+        body.setPrompt(input + "\n");
         //返回消息长度
         body.setMax_tokens(3000);
         //0每次回答一样~1每次回答不一样

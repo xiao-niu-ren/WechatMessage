@@ -88,8 +88,8 @@ public class WechatRobotClient {
 //        restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class, msg);
 //    }
 
-    public String getChatroomMemberNick(String roomId, String wxId){
-        String url = this.url + GET_PATH_GET_CHATROOM_MEMBER_NICK_TEMPLATE + "/" + roomId + "/" + wxId;
+    public String getChatroomMemberNick(String roomId, String userId){
+        String url = this.url + GET_PATH_GET_CHATROOM_MEMBER_NICK_TEMPLATE + "/" + roomId + "/" + userId;
         ResponseEntity<String> res = restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class);
         WechatRsvMsgDTO wechatRsvMsgDTO = JSON.parseObject(res.getBody(), WechatRsvMsgDTO.class);
         String content = wechatRsvMsgDTO.getContent();

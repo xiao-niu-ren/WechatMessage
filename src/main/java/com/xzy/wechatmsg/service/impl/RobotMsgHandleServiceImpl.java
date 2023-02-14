@@ -38,8 +38,9 @@ public class RobotMsgHandleServiceImpl implements RobotMsgHandleService {
                 if (wechatRsvTxtMsg.getContent().contains("@NiuBot")) {
                     //1.群聊@消息
                     String roomId = wxid;
+                    String userId = wechatRsvTxtMsg.getId1();
                     WechatMsgWithInfoAndType.WechatMsg wechatMsg = new WechatMsgWithInfoAndType.WechatMsg();
-                    String content = robotMsgHandler.dealAtGroupTxtMsg(wechatRobotClient, roomId, wechatRsvTxtMsg.getId1(), wechatRsvTxtMsg.getContent().replace("@NiuBot", ""));
+                    String content = robotMsgHandler.dealAtGroupTxtMsg(wechatRobotClient, roomId, userId, wechatRsvTxtMsg.getContent().replace("@NiuBot", ""));
                     wechatMsg.setContent(content);
                     wechatMsg.setWxId(roomId);
                     wechatRobotClient.sendTextMsg(wechatMsg);
