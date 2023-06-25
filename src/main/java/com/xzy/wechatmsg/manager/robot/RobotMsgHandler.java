@@ -3,26 +3,25 @@ package com.xzy.wechatmsg.manager.robot;
 import com.alibaba.fastjson.JSON;
 import com.xzy.wechatmsg.bo.WechatMsgWithInfoAndType;
 import com.xzy.wechatmsg.client.WechatRobotClient;
-import com.xzy.wechatmsg.domain.chatgpt.model.ChatGptReq;
-import com.xzy.wechatmsg.domain.chatgpt.model.ChatGptResp;
+import com.xzy.wechatmsg.domain.chatgpt.model.ChatGptReq30;
+import com.xzy.wechatmsg.domain.chatgpt.model.ChatGptReq35;
+import com.xzy.wechatmsg.domain.chatgpt.model.ChatGptResp30;
+import com.xzy.wechatmsg.domain.chatgpt.model.ChatGptResp35;
 import com.xzy.wechatmsg.domain.robot.model.WechatMsgDTO;
 import com.xzy.wechatmsg.domain.robot.model.WechatRsvMsgDTO;
 import com.xzy.wechatmsg.domain.robot.model.WechatRsvPicMsg;
 import com.xzy.wechatmsg.domain.robot.model.WechatRsvTxtMsg;
-import org.apache.tomcat.util.buf.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -147,7 +146,30 @@ public class RobotMsgHandler {
             }
         }
 
-        String completionsApi = "https://api.openai.com/v1/completions";
+//        // 以下是gpt3
+//        String completionsApi = "https://api.openai.com/v1/completions";
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        //header
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set("Content-Type", "application/json");
+//        headers.set("Authorization", "Bearer ".concat(token));
+//
+//        //body
+//        ChatGptReq30 body = new ChatGptReq30();
+//        body.setModel("text-davinci-003");
+//        body.setPrompt(input + "\n");
+//        //返回消息长度
+//        body.setMax_tokens(3000);
+//        //0每次回答一样~1每次回答不一样
+//        body.setTemperature(0.8f);
+//
+//        HttpEntity<ChatGptReq30> entity = new HttpEntity<>(body, headers);
+
+        // 以下是gpt3.5
+        ////////////////////////////////////////////////////////////
+        String completionsApi = "https://api.openai.com/v1/chat/completions";
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -157,29 +179,39 @@ public class RobotMsgHandler {
         headers.set("Authorization", "Bearer ".concat(token));
 
         //body
-        ChatGptReq body = new ChatGptReq();
-        body.setModel("text-davinci-003");
-        body.setPrompt(input + "\n");
-        //返回消息长度
-        body.setMax_tokens(3000);
+        ChatGptReq35 body = new ChatGptReq35();
+        body.setModel("gpt-3.5-turbo-0301");
+        ChatGptReq35.Message message = new ChatGptReq35.Message();
+        message.setRole("user");
+        message.setContent(input);
+        body.setMessages(new ArrayList<ChatGptReq35.Message>() {{
+            add(message);
+        }});
         //0每次回答一样~1每次回答不一样
-        body.setTemperature(0.8f);
+        body.setTemperature(0.7f);
 
-        HttpEntity<ChatGptReq> entity = new HttpEntity<>(body, headers);
+        HttpEntity<ChatGptReq35> entity = new HttpEntity<>(body, headers);
+        ////////////////////////////////////////////////////////////
 
         //post
         ResponseEntity<String> responseEntity;
         try {
             responseEntity = restTemplate.postForEntity(completionsApi, entity, String.class);
         } catch (Exception e) {
-            return "chatGpt调用出错，请更改你的问法或稍后重试";
+            return "GPT的api调用出错，请稍后重试~";
         }
-        ChatGptResp chatGptResp = JSON.parseObject(responseEntity.getBody(), ChatGptResp.class);
+        // 以下是gpt3
+//        ChatGptResp30 chatGptResp = JSON.parseObject(responseEntity.getBody(), ChatGptResp30.class);
+        // 以下是gpt3.5
+        ChatGptResp35 chatGptResp = JSON.parseObject(responseEntity.getBody(), ChatGptResp35.class);
 
         if (chatGptResp == null || CollectionUtils.isEmpty(chatGptResp.getChoices())) {
             return "不好意思我没理解您的意思";
         } else {
-            String text = chatGptResp.getChoices().get(0).getText();
+            // 以下是gpt3
+//            String text = chatGptResp.getChoices().get(0).getText();
+            // 以下是gpt3.5
+            String text = chatGptResp.getChoices().get(0).getMessage().getContent();
             return text.replaceAll("^[" + System.lineSeparator() + "]", "").replaceAll("[" + System.lineSeparator() + "]$", "");
         }
     }

@@ -37,8 +37,7 @@ public class RobotMsgHandleController {
 
     @RequestMapping("/testOpenai")
     public String handlePic(@RequestParam String input) {
-        String chat = robotMsgHandler.chat(input, false);
-        return chat;
+        return robotMsgHandler.chat(input, false);
     }
 
 }

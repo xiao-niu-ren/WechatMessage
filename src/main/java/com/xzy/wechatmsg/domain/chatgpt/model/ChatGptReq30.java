@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public class ChatGptReq {
+public class ChatGptReq30 {
     String model;
     String prompt;
     Integer max_tokens;

@@ -17,18 +17,27 @@ import java.util.concurrent.TimeUnit;
 public class WechatMessageApplication {
 
     public static void main(String[] args) {
+        String proxyHost = "127.0.0.1";
+        String proxyPort = "7890";
+
+        System.setProperty("http.proxyHost", proxyHost);
+        System.setProperty("http.proxyPort", proxyPort);
+
+        System.setProperty("https.proxyHost", proxyHost);
+        System.setProperty("https.proxyPort", proxyPort);
+
         SpringApplication.run(WechatMessageApplication.class, args);
-        AppTaskHandler appTaskHandler = new AppTaskHandler();
-        List<WrappedCronTask> wrappedCronTaskList = appTaskHandler.getWrappedCronTaskList();
-        while (true) {
-            try {
-                System.out.println("------------------" + LocalDateTime.now() + "---------------------------");
-                wrappedCronTaskList.forEach(System.out::println);
-                TimeUnit.SECONDS.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        AppTaskHandler appTaskHandler = new AppTaskHandler();
+//        List<WrappedCronTask> wrappedCronTaskList = appTaskHandler.getWrappedCronTaskList();
+//        while (true) {
+//            try {
+//                System.out.println("------------------" + LocalDateTime.now() + "---------------------------");
+//                wrappedCronTaskList.forEach(System.out::println);
+//                TimeUnit.SECONDS.sleep(10);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
 }

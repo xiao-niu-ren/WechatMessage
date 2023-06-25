@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-public class ChatGptResp {
+public class ChatGptResp30 {
     String id;
     String object;
     Integer created;
