@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -65,31 +67,47 @@ public class RobotMsgHandler {
         String nickName = wechatRobotClient.getChatroomMemberNick(roomId, userId);
         //1.如果是开启自动回复，那就加入map，保存当前群聊，并返回收到
         //2.如果是关闭自动回复，那就从map中移除，并返回已关闭自动回复，保留@回复
-        if ("开启我的自动回复".equals(txt)) {
-            Set<String> set = autoRespMap.getOrDefault(roomId, new HashSet<>());
-            set.add(userId);
-            autoRespMap.put(roomId, set);
-            return "已开启" + nickName + "的自动回复";
-        } else if ("关闭我的自动回复".equals(txt)) {
-            Set<String> set = autoRespMap.getOrDefault(roomId, new HashSet<>());
-            if (set.contains(userId)) {
-                set.remove(userId);
+        switch (txt) {
+            case "吃什么":
+                return randomRestaurant();
+            case "开启我的自动回复": {
+                Set<String> set = autoRespMap.getOrDefault(roomId, new HashSet<>());
+                set.add(userId);
+                autoRespMap.put(roomId, set);
+                return "已开启" + nickName + "的自动回复";
             }
-            if (set.isEmpty() && autoRespMap.containsKey(roomId)) {
-                autoRespMap.remove(roomId);
+            case "关闭我的自动回复": {
+                Set<String> set = autoRespMap.getOrDefault(roomId, new HashSet<>());
+                if (set.contains(userId)) {
+                    set.remove(userId);
+                }
+                if (set.isEmpty() && autoRespMap.containsKey(roomId)) {
+                    autoRespMap.remove(roomId);
+                }
+                return "已关闭" + nickName + "的自动回复";
             }
-            return "已关闭" + nickName + "的自动回复";
-        } else if ("开启所有自动回复".equals(txt)) {
-            autoRespRoomSet.add(roomId);
-            return "已开启所有自动回复";
-        } else if ("关闭所有自动回复".equals(txt)) {
-            if (autoRespRoomSet.contains(roomId)) {
-                autoRespRoomSet.remove(roomId);
-            }
-            return "已关闭所有自动回复";
-        } else {
-            return "To " + nickName + ":" + System.lineSeparator() + chat(txt, true);
+            case "开启所有自动回复":
+                autoRespRoomSet.add(roomId);
+                return "已开启所有自动回复";
+            case "关闭所有自动回复":
+                if (autoRespRoomSet.contains(roomId)) {
+                    autoRespRoomSet.remove(roomId);
+                }
+                return "已关闭所有自动回复";
+            default:
+                return "To " + nickName + ":" + System.lineSeparator() + chat(txt, true);
         }
+    }
+
+    private String randomRestaurant() {
+        Map<Integer, String> map = new HashMap<Integer, String>() {{
+            put(0, "新一");
+            put(1, "新四");
+            put(2, "老一");
+            put(3, "老二");
+            put(4, "学苑");
+        }};
+        return map.get(new Random().nextInt(map.size()));
     }
 
     public String dealNormalGroupTxtMsg(String txt) {
