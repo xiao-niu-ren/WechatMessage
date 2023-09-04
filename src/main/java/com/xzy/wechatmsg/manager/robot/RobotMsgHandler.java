@@ -110,13 +110,15 @@ public class RobotMsgHandler {
     }
 
     public String dealNormalGroupTxtMsg(String txt) {
-        txt = txt.trim();
-        return chat(txt, false);
+        // TODO 过滤掉@位置不同，误删
+        String s = txt.substring(1).trim();
+        return chat(s, false);
     }
 
     public String dealPrivateTxtMsg(String txt) {
-        txt = txt.trim();
-        return chat(txt, false);
+        // TODO 过滤掉@位置不同，误删
+        String s = txt.substring(1).trim();
+        return chat(s, false);
     }
 
     public String dealAtGroupPicMsg(WechatRsvPicMsg pic) {
