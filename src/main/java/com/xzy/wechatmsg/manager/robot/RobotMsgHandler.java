@@ -64,7 +64,7 @@ public class RobotMsgHandler {
 
     public String dealAtGroupTxtMsg(WechatRobotClient wechatRobotClient, String roomId, String userId, String txt) {
         // TODO 过滤掉@位置不同，误删
-        String s = txt.substring(1, txt.length()).trim();
+        String s = txt.substring(1).trim();
         String nickName = wechatRobotClient.getChatroomMemberNick(roomId, userId);
         //1.如果是开启自动回复，那就加入map，保存当前群聊，并返回收到
         //2.如果是关闭自动回复，那就从map中移除，并返回已关闭自动回复，保留@回复
