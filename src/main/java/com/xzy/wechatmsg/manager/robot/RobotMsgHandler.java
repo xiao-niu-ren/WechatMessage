@@ -63,11 +63,12 @@ public class RobotMsgHandler {
     }
 
     public String dealAtGroupTxtMsg(WechatRobotClient wechatRobotClient, String roomId, String userId, String txt) {
-        txt = txt.trim();
+        // TODO 过滤掉@位置不同，误删
+        String s = txt.substring(1, txt.length()).trim();
         String nickName = wechatRobotClient.getChatroomMemberNick(roomId, userId);
         //1.如果是开启自动回复，那就加入map，保存当前群聊，并返回收到
         //2.如果是关闭自动回复，那就从map中移除，并返回已关闭自动回复，保留@回复
-        switch (txt) {
+        switch (s) {
             case "吃什么":
                 return randomRestaurant();
             case "开启我的自动回复": {
@@ -103,9 +104,9 @@ public class RobotMsgHandler {
         Map<Integer, String> map = new HashMap<Integer, String>() {{
             put(0, "新一");
             put(1, "新四");
-            put(2, "老一");
-            put(3, "老二");
-            put(4, "学苑");
+            put(2, "老二");
+            put(3, "学苑");
+            put(4, "校外（小面抄手等）");
         }};
         return map.get(new Random().nextInt(map.size()));
     }
