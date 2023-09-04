@@ -33,6 +33,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class RobotMsgHandler {
 
+    @Value(value = "${openai.token}")
+    private String token;
 
     public static Map<String, Set<String>> autoRespMap = new ConcurrentHashMap<String, Set<String>>(){{
         //k为roomId，v为wxId
@@ -49,10 +51,6 @@ public class RobotMsgHandler {
         put(3, "学苑");
         put(4, "校外（小面抄手等）");
     }};
-
-
-    @Value(value = "${openai.token}")
-    private String token;
 
     public WechatMsgDTO buildWechatMsg(WechatMsgWithInfoAndType.WechatMsg msg) {
         return JSON.parseObject(JSON.toJSONString(msg), WechatMsgDTO.class);
@@ -199,7 +197,7 @@ public class RobotMsgHandler {
 
         //body
         ChatGptReq35 body = new ChatGptReq35();
-        body.setModel("gpt-3.5-turbo-0301");
+        body.setModel("gpt-3.5-turbo");
         ChatGptReq35.Message message = new ChatGptReq35.Message();
         message.setRole("user");
         message.setContent(input);
