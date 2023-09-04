@@ -45,17 +45,17 @@ public class RobotMsgHandleServiceImpl implements RobotMsgHandleService {
                     wechatMsg.setWxId(roomId);
                     wechatRobotClient.sendTextMsg(wechatMsg);
                 } else {
-                //2.普通群聊消息
-                //默认关闭，当@机器人开启自动回复以后，@机器人关闭自动回复，保留@回复
-                String roomId = wxid;
-                String wxId = wechatRsvTxtMsg.getId1();
-                if (!RobotMsgHandler.autoRespRoomSet.contains(roomId) && !RobotMsgHandler.autoRespMap.containsKey(roomId) && !RobotMsgHandler.autoRespMap.get(roomId).contains(wxId)) {
-                    return;
-                }
-                WechatMsgWithInfoAndType.WechatMsg wechatMsg = new WechatMsgWithInfoAndType.WechatMsg();
-                wechatMsg.setContent(robotMsgHandler.dealNormalGroupTxtMsg(wechatRsvTxtMsg.getContent()));
-                wechatMsg.setWxId(roomId);
-                wechatRobotClient.sendTextMsg(wechatMsg);
+                    //2.普通群聊消息
+                    //默认关闭，当@机器人开启自动回复以后，@机器人关闭自动回复，保留@回复
+                    String roomId = wxid;
+                    String wxId = wechatRsvTxtMsg.getId1();
+                    if (!RobotMsgHandler.autoRespRoomSet.contains(roomId) && !RobotMsgHandler.autoRespMap.containsKey(roomId) && !RobotMsgHandler.autoRespMap.get(roomId).contains(wxId)) {
+                        return;
+                    }
+                    WechatMsgWithInfoAndType.WechatMsg wechatMsg = new WechatMsgWithInfoAndType.WechatMsg();
+                    wechatMsg.setContent(robotMsgHandler.dealNormalGroupTxtMsg(wechatRsvTxtMsg.getContent()));
+                    wechatMsg.setWxId(roomId);
+                    wechatRobotClient.sendTextMsg(wechatMsg);
                 }
             } else {
                 //3.私聊消息
