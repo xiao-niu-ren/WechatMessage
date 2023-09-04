@@ -3,9 +3,7 @@ package com.xzy.wechatmsg.manager.robot;
 import com.alibaba.fastjson.JSON;
 import com.xzy.wechatmsg.bo.WechatMsgWithInfoAndType;
 import com.xzy.wechatmsg.client.WechatRobotClient;
-import com.xzy.wechatmsg.domain.chatgpt.model.ChatGptReq30;
 import com.xzy.wechatmsg.domain.chatgpt.model.ChatGptReq35;
-import com.xzy.wechatmsg.domain.chatgpt.model.ChatGptResp30;
 import com.xzy.wechatmsg.domain.chatgpt.model.ChatGptResp35;
 import com.xzy.wechatmsg.domain.robot.model.WechatMsgDTO;
 import com.xzy.wechatmsg.domain.robot.model.WechatRsvMsgDTO;
@@ -23,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,6 +40,14 @@ public class RobotMsgHandler {
 
     public static Set<String> autoRespRoomSet = new HashSet<String>(){{
         //元素为roomId
+    }};
+
+    public static Map<Integer, String> restaurantMap = new HashMap<Integer, String>() {{
+        put(0, "新一");
+        put(1, "新四");
+        put(2, "老二");
+        put(3, "学苑");
+        put(4, "校外（小面抄手等）");
     }};
 
 
@@ -71,44 +76,37 @@ public class RobotMsgHandler {
         switch (s) {
             case "吃什么":
                 return randomRestaurant();
-            case "开启我的自动回复": {
-                Set<String> set = autoRespMap.getOrDefault(roomId, new HashSet<>());
-                set.add(userId);
-                autoRespMap.put(roomId, set);
-                return "已开启" + nickName + "的自动回复";
-            }
-            case "关闭我的自动回复": {
-                Set<String> set = autoRespMap.getOrDefault(roomId, new HashSet<>());
-                if (set.contains(userId)) {
-                    set.remove(userId);
-                }
-                if (set.isEmpty() && autoRespMap.containsKey(roomId)) {
-                    autoRespMap.remove(roomId);
-                }
-                return "已关闭" + nickName + "的自动回复";
-            }
-            case "开启所有自动回复":
-                autoRespRoomSet.add(roomId);
-                return "已开启所有自动回复";
-            case "关闭所有自动回复":
-                if (autoRespRoomSet.contains(roomId)) {
-                    autoRespRoomSet.remove(roomId);
-                }
-                return "已关闭所有自动回复";
+//            case "开启我的自动回复": {
+//                Set<String> set = autoRespMap.getOrDefault(roomId, new HashSet<>());
+//                set.add(userId);
+//                autoRespMap.put(roomId, set);
+//                return "已开启" + nickName + "的自动回复";
+//            }
+//            case "关闭我的自动回复": {
+//                Set<String> set = autoRespMap.getOrDefault(roomId, new HashSet<>());
+//                if (set.contains(userId)) {
+//                    set.remove(userId);
+//                }
+//                if (set.isEmpty() && autoRespMap.containsKey(roomId)) {
+//                    autoRespMap.remove(roomId);
+//                }
+//                return "已关闭" + nickName + "的自动回复";
+//            }
+//            case "开启所有自动回复":
+//                autoRespRoomSet.add(roomId);
+//                return "已开启所有自动回复";
+//            case "关闭所有自动回复":
+//                if (autoRespRoomSet.contains(roomId)) {
+//                    autoRespRoomSet.remove(roomId);
+//                }
+//                return "已关闭所有自动回复";
             default:
-                return "To " + nickName + ":" + System.lineSeparator() + chat(txt, true);
+                return "To " + nickName + ":" + System.lineSeparator() + chat(s, true);
         }
     }
 
     private String randomRestaurant() {
-        Map<Integer, String> map = new HashMap<Integer, String>() {{
-            put(0, "新一");
-            put(1, "新四");
-            put(2, "老二");
-            put(3, "学苑");
-            put(4, "校外（小面抄手等）");
-        }};
-        return map.get(new Random().nextInt(map.size()));
+        return restaurantMap.get(new Random().nextInt(restaurantMap.size()));
     }
 
     public String dealNormalGroupTxtMsg(String txt) {
@@ -140,30 +138,30 @@ public class RobotMsgHandler {
      * chatGpt chat
      */
     public String chat(String input, boolean openTips) {
-        if (openTips) {
-            if (input == null || input.equals("")) {
-                return "您好，我是Robot-Niu"
-                        + System.lineSeparator()
-                        + "可以艾特我提问哦～"
-                        + System.lineSeparator()
-                        + System.lineSeparator()
-                        + "更改触发方式可艾特我输入如下文字，两次输入请间隔一段时间"
-                        + System.lineSeparator()
-                        + "1.开启我的自动回复（不用艾特我就自动回复您的消息）"
-                        + System.lineSeparator()
-                        + "2.关闭我的自动回复（关闭自动回复您的消息）"
-                        + System.lineSeparator()
-                        + "3.开启所有自动回复（开启所有群消息自动回复，目前只有小牛人可以）"
-                        + System.lineSeparator()
-                        + "4.关闭所有自动回复（关闭所有群消息自动回复）";
-            }
-        } else {
-            if (input == null || input.equals("")) {
-                return "您好，我是Robot-Niu"
-                        + System.lineSeparator()
-                        + "可以提问我哦～";
-            }
-        }
+//        if (openTips) {
+//            if (input == null || input.equals("")) {
+//                return "您好，我是Robot-Niu"
+//                        + System.lineSeparator()
+//                        + "可以艾特我提问哦～"
+//                        + System.lineSeparator()
+//                        + System.lineSeparator()
+//                        + "更改触发方式可艾特我输入如下文字，两次输入请间隔一段时间"
+//                        + System.lineSeparator()
+//                        + "1.开启我的自动回复（不用艾特我就自动回复您的消息）"
+//                        + System.lineSeparator()
+//                        + "2.关闭我的自动回复（关闭自动回复您的消息）"
+//                        + System.lineSeparator()
+//                        + "3.开启所有自动回复（开启所有群消息自动回复，目前只有小牛人可以）"
+//                        + System.lineSeparator()
+//                        + "4.关闭所有自动回复（关闭所有群消息自动回复）";
+//            }
+//        } else {
+//            if (input == null || input.equals("")) {
+//                return "您好，我是Robot-Niu"
+//                        + System.lineSeparator()
+//                        + "可以提问我哦～";
+//            }
+//        }
 
 //        // 以下是gpt3
 //        String completionsApi = "https://api.openai.com/v1/completions";
