@@ -29,6 +29,7 @@ public class RunnableWechatMsgFactory {
         put(WechatMsgTypeEnum.IMG_MSG, "sendImgMsg");
         put(WechatMsgTypeEnum.AT_MSG, "sendAtMsg");
         put(WechatMsgTypeEnum.ANNEX_MSG, "sendAnnex");
+        put(WechatMsgTypeEnum.CUSTOM_METHOD_TXT_MSG, "sendTextMsgWithCustomMethod");
     }};
 
     /**

@@ -22,6 +22,10 @@ public enum WechatMsgTypeEnum {
      * annex
      */
     ANNEX_MSG("annex_msg"),
+    /**
+     * custom_method_txt_msg
+     */
+    CUSTOM_METHOD_TXT_MSG("custom_method_txt_msg"),
     ;
 
     String value;

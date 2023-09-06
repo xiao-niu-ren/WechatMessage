@@ -35,5 +35,9 @@ public class WechatMsgWithInfoAndType {
         String roomId;
         @JsonProperty("nickname")
         String nickName;
+        @JsonProperty("custom_method_name")
+        String customMethodName;
+        @JsonProperty("custom_method_param")
+        String customMethodParam;
     }
 }

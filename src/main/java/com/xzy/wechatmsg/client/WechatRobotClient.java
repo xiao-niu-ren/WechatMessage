@@ -4,7 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.xzy.wechatmsg.bo.WechatMsgWithInfoAndType;
 import com.xzy.wechatmsg.domain.robot.model.WechatMsgDTO;
 import com.xzy.wechatmsg.domain.robot.model.WechatRsvMsgDTO;
+import com.xzy.wechatmsg.exception.task.CustomMethodInvokeException;
+import com.xzy.wechatmsg.exception.task.TaskInvokeException;
 import com.xzy.wechatmsg.manager.robot.RobotMsgHandler;
+import com.xzy.wechatmsg.manager.task.CustomMethodHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -12,6 +15,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import java.lang.reflect.Method;
 
 /**
  * @description: WechatClient
@@ -49,6 +54,9 @@ public class WechatRobotClient {
     @Autowired
     RobotMsgHandler robotMsgHandler;
 
+    @Autowired
+    CustomMethodHandler customMethodHandler;
+
     public void sendToXiaoniuren(String msg) {
         String url = this.url + SEND_PATH_XIAONIUREN_TEMPLATE;
         restTemplate.exchange(url, HttpMethod.GET, httpEntity, String.class, msg);
@@ -58,6 +66,18 @@ public class WechatRobotClient {
         String url = this.url + SEND_PATH_SEND_TEXT_MSG;
         HttpEntity<WechatMsgWithInfoAndType.WechatMsg> request = new HttpEntity<>(msg, httpEntity.getHeaders());
         restTemplate.exchange(url, HttpMethod.POST, request, String.class);
+    }
+
+    public void sendTextMsgWithCustomMethod(WechatMsgWithInfoAndType.WechatMsg msg) {
+        String customMethodName = msg.getCustomMethodName();
+        String customMethodParam = msg.getCustomMethodParam();
+        try {
+            Method method = customMethodHandler.getClass().getDeclaredMethod(customMethodName, String.class);
+            method.setAccessible(true);
+            method.invoke(customMethodHandler, customMethodParam);
+        } catch (Exception e) {
+            throw new CustomMethodInvokeException();
+        }
     }
 
     public void sendImgMsg(WechatMsgWithInfoAndType.WechatMsg msg) {
