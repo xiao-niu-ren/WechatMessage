@@ -31,6 +31,7 @@ public class RobotMsgHandleServiceImpl implements RobotMsgHandleService {
 
     @Override
     public void handleTxtMsg(WechatRsvMsgDTO rsvMsg) {
+        // 使用异步, 避免阻塞
         CompletableFuture.runAsync(() -> {
             WechatRsvTxtMsg wechatRsvTxtMsg = robotMsgHandler.parseTxtMsg(rsvMsg);
             String wxid = wechatRsvTxtMsg.getWxid();
